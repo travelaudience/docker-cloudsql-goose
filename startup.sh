@@ -39,6 +39,7 @@ delayTailKill &>/dev/null &
 ( tail -f -n +1 /tmp/cloudsql.log & ) | grep -q "Ready for new connections"
 
 # Remove SA json from the tmp folder
+# Nobody should have access either way, but just to check
 rm /tmp/sa.json
 # Print the log for debug purposes
 tail -n +1 /tmp/cloudsql.log

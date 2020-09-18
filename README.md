@@ -10,9 +10,9 @@ Docker image for running [goose ](https://github.com/pressly/goose) migrations o
 Parameters are passed as environment variables, so the image can easily be used from CircleCI (See below). For local development it is recommended to set up a `.env.local` file with the following contents:
 
 ```bash
-# Contents of the service account json file. (put everything on 1 line!)
+# Contents of the service account json file. (put everything on 1 line. dot env files don't support multiline variables)
 # https://cloud.google.com/iam/docs/creating-managing-service-account-keys
-CLOUDSQL_PROXY_SA={ XXXXXXXXX }
+CLOUDSQL_PROXY_SA=SERVICE_ACCOUNT_SECRET_JSON
 # The cloudsql instance you want to connect to
 GCLOUD_SQL_INSTANCE=project:region:cloudsql_instance=tcp:localhost:port
 

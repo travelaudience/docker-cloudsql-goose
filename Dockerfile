@@ -3,12 +3,13 @@ FROM golang:1.15
 
 # Fetch the cloudsql proxy
 RUN mkdir /proxy &&\
-    wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O /proxy/cloud_sql_proxy &&\
+    wget https://storage.googleapis.com/cloudsql-proxy/v1.18.0/cloud_sql_proxy.linux.amd64 -O /proxy/cloud_sql_proxy &&\
     chmod +x /proxy/cloud_sql_proxy &&\
     mkdir /cloudsql
 
 # Fetch goose
-RUN go get -v -u github.com/pressly/goose/cmd/goose
+RUN export GO111MODULE=on &&\
+    go get -v -u github.com/pressly/goose/cmd/goose@v2.7.0-rc5
 
 RUN mkdir /db
 WORKDIR /db
