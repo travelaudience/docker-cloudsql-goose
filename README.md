@@ -27,7 +27,7 @@ GOOSE_DRIVER=postgres
 ## Build & Run (local)
 ```bash
 # Build the image
-docker build -t cloudsql-goose . 
+docker build -t travelaudience/cloudsql-goose . 
 
 # For local executions we mount the goose migration folder
 docker run --rm -it --name goose \
