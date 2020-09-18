@@ -5,8 +5,7 @@ if [[ -z "${CLOUDSQL_PROXY_SA}" ]]; then
     exit 1
 else
     # Replace \\n with an actual newline, for .env file compatibility
-    #echo "${CLOUDSQL_PROXY_SA//\\n/$'\n'}" > /sa.json
-    echo "${CLOUDSQL_PROXY_SA}" > /sa.json
+    echo "${CLOUDSQL_PROXY_SA}" > /tmp/sa.json
 fi
 
 if [[ -z "${GCLOUD_SQL_INSTANCE}" ]]; then
@@ -17,8 +16,8 @@ fi
 export GOOSE_DBSTRING=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:${POSTGRES_PORT}/${POSTGRES_DATABASE}?sslmode=disable
 
 echo "Starting the cloudsql proxy"
-touch /cloudsql.log
-exec /proxy/cloud_sql_proxy -dir=/cloudsql -instances="$GCLOUD_SQL_INSTANCE" -credential_file=/sa.json > /cloudsql.log 2>&1 &
+touch /tmp/cloudsql.log
+exec /proxy/cloud_sql_proxy -dir=/cloudsql -instances="$GCLOUD_SQL_INSTANCE" -credential_file=/tmp/sa.json > /tmp/cloudsql.log 2>&1 &
 
 # Set true in the shared memory
 # We use this to detect if the ready message was received or nto
@@ -35,13 +34,14 @@ delayTailKill() {
     echo "0" >/dev/shm/cloudsql_ready
     pkill -s 0 tail
 }
-
 delayTailKill &>/dev/null &
 
-( tail -f -n +1 /cloudsql.log & ) | grep -q "Ready for new connections"
+( tail -f -n +1 /tmp/cloudsql.log & ) | grep -q "Ready for new connections"
 
+# Remove SA json from the tmp folder
+rm /tmp/sa.json
 # Print the log for debug purposes
-tail -n +1 /cloudsql.log
+tail -n +1 /tmp/cloudsql.log
 
 # Read from shared memory to see if the tail was killed or the ready message arrived
 if (( "$(</dev/shm/cloudsql_ready)" != "1" ));

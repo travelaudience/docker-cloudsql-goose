@@ -33,6 +33,7 @@ docker build -t cloudsql-goose .
 docker run --rm -it --name goose \
     --env-file .env.local \
     --mount type=bind,source="$(pwd)"/db/migrations,target=/db/migrations \
+    -u $(id -u ${USER}):$(id -g ${USER}) \
     cloudsql-goose
 
 # cd into the directory we mounted
