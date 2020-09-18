@@ -20,7 +20,7 @@ touch /tmp/cloudsql.log
 exec /proxy/cloud_sql_proxy -dir=/cloudsql -instances="$GCLOUD_SQL_INSTANCE" -credential_file=/tmp/sa.json > /tmp/cloudsql.log 2>&1 &
 
 # Set true in the shared memory
-# We use this to detect if the ready message was received or nto
+# Check whether the ready message was received
 echo "1" >/dev/shm/cloudsql_ready
 
 # Wait for the cloudsql connection to go up
