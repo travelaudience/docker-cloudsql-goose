@@ -3,6 +3,7 @@ Docker image for running goose transactions on a cloudsql database
 
 # Usage
 
+## CircleCI
 
 ## Configuration (Local)
 
@@ -56,5 +57,3 @@ goose up
 ```bash
 goose reset
 ```
-
-## CircleCI
