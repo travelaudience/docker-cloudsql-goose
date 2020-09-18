@@ -14,6 +14,8 @@ if [[ -z "${GCLOUD_SQL_INSTANCE}" ]]; then
     exit 1
 fi
 
+export GOOSE_DBSTRING=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:${POSTGRES_PORT}/${POSTGRES_DATABASE}?sslmode=disable
+
 echo "Starting the cloudsql proxy"
 touch /cloudsql.log
 exec /proxy/cloud_sql_proxy -dir=/cloudsql -instances="$GCLOUD_SQL_INSTANCE" -credential_file=/sa.json > /cloudsql.log 2>&1 &

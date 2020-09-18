@@ -15,9 +15,12 @@ CLOUDSQL_PROXY_SA={ XXXXXXXXX }
 # The cloudsql instance you want to connect to
 GCLOUD_SQL_INSTANCE=project:region:cloudsql_instance=tcp:localhost:port
 
-# Goose connection configuration
+# Goose & postgres connection configuration
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=XXXXXX
+POSTGRES_PORT=5536
+POSTGRES_DATABASE=goose_demo
 GOOSE_DRIVER=postgres
-GOOSE_DBSTRING=postgres://postgres:postgres@localhost:port/external_platforms?sslmode=disable
 ```
 
 ## Build & Run (local)
@@ -26,14 +29,18 @@ GOOSE_DBSTRING=postgres://postgres:postgres@localhost:port/external_platforms?ss
 docker build -t cloudsql-goose . 
 
 # For local executions we mount the goose migration folder
-docker run --rm -it --env-file .env.local --mount type=bind,source="$(pwd)"/db/migrations,target=/db/migrations --name goose cloudsql-goose
+docker run --rm -it --name goose \
+    --env-file .env.local \
+    --mount type=bind,source="$(pwd)"/db/migrations,target=/db/migrations \
+    cloudsql-goose
 
 # cd into the directory we mounted
 cd migrations/
 ```
 
-### Create a sql migration
+### Create a new sql migration
 
+This might create the file as root on your host system
 ```bash
 goose create sql
 ```
@@ -44,10 +51,10 @@ goose create sql
 goose up
 ```
 
+### Remove everything
 
-Or to run bash inside the container:
 ```bash
-docker run -it --rm --env-file .env.local --name goose --entrypoint bash cloudsql-goose 
+goose reset
 ```
 
 ## CircleCI

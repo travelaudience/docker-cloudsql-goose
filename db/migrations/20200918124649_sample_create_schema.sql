@@ -1,9 +1,9 @@
 -- +goose Up
 -- +goose StatementBegin
-SELECT 'up SQL query';
+CREATE SCHEMA goose_demo_schema AUTHORIZATION postgres;
 -- +goose StatementEnd
 
 -- +goose Down
 -- +goose StatementBegin
-SELECT 'down SQL query';
+DROP SCHEMA goose_demo_schema;
 -- +goose StatementEnd
