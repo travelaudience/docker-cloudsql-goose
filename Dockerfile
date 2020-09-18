@@ -10,8 +10,14 @@ RUN mkdir /proxy &&\
 # Fetch goose
 RUN go get -v -u github.com/pressly/goose/cmd/goose
 
+RUN mkdir /db
+WORKDIR /db
+
 # Our execution script
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
-RUN  chmod +x /docker-entrypoint.sh
+COPY ./startup.sh /startup.sh
+
+RUN  chmod +x /docker-entrypoint.sh &&\
+    chmod +x /startup.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
