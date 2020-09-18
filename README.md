@@ -1,5 +1,5 @@
 # docker-cloudsql-goose
-Docker image for running goose transactions on a cloudsql database
+Docker image for running [goose ](https://github.com/pressly/goose) migrations on a cloudsql database
 
 # Usage
 
