@@ -18,6 +18,6 @@ COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 COPY ./startup.sh /startup.sh
 
 RUN  chmod +x /docker-entrypoint.sh &&\
-    chmod +x /startup.sh
+    chmod +x /docker-entrypoint.sh /startup.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
