@@ -48,6 +48,8 @@ tail -n +1 /tmp/cloudsql.log
 if (( "$(</dev/shm/cloudsql_ready)" != "1" ));
 then
   echo "Waiting for cloudsql connection timed out. Exitting."
+  # Dump the log so you can see what went wrong
+  cat /tmp/cloudsql.log
   exit 1
 else
     echo "Cloudsql proxy ready"
