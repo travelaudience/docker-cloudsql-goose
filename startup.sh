@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# note: this script is sourced from the CircleCI orb, and CircleCI executes the code with `set -eo pipefail`
+
 if [[ -z "${CLOUDSQL_PROXY_SA}" ]]; then
     echo "'CLOUDSQL_PROXY_SA' environment variable not defined. Place the contents of the service account json in this environment variable" 1>&2
     exit 1
@@ -36,7 +38,7 @@ delayTailKill() {
 }
 delayTailKill &>/dev/null &
 
-( tail -f -n +1 /tmp/cloudsql.log & ) | grep -q "Ready for new connections"
+( tail -f -n +1 /tmp/cloudsql.log & ) | grep -q "Ready for new connections" || true
 
 # Remove SA json from the tmp folder
 # Nobody should have access either way, but just to check
