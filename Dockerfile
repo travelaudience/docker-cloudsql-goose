@@ -1,5 +1,5 @@
 # Because we intend to use this image on CircleCi, we want to use an image with a bit more components than buster
-FROM golang:1.15
+FROM golang:1.19.5
 
 LABEL maintainer=det@travelaudience.com
 
