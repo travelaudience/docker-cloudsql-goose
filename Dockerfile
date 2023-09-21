@@ -1,5 +1,5 @@
 # Because we intend to use this image on CircleCi, we want to use an image with a bit more components than buster
-FROM golang:1.15
+FROM golang:1.21
 
 LABEL maintainer=det@travelaudience.com
 
@@ -11,7 +11,7 @@ RUN mkdir /proxy &&\
 
 # Fetch goose
 RUN export GO111MODULE=on &&\
-    go get -v -u github.com/pressly/goose/cmd/goose@v2.7.0-rc5
+    go install github.com/pressly/goose/v3/cmd/goose@v3.15.0
 
 RUN mkdir /db
 WORKDIR /db
