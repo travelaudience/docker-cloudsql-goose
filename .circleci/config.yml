@@ -1,5 +1,5 @@
 orbs: 
-  ta-docker: travelaudience/docker@2.1
+  ta-docker: travelaudience/docker@3.2
 
 version: 2.1
 workflows:
